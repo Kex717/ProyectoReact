@@ -6,6 +6,7 @@ import cerrar from './cerrar.png'
 import contacto from './contacto.png'
 import registro from './registro.png'
 import iniciar from './iniciar.png'
+import carrito from './carrito.jpg'
 import { Link} from 'react-router-dom'
 import Cookies from 'universal-cookie';
 import SesionCaducada from '../sesionCaducada/SesionCaducada'
@@ -70,6 +71,13 @@ export default function Header() {
                                     <img src={cerrar} className="iconos"/>
                                     <a href="#" className="nav-link" onClick={handleLogout}>Cerrar sesión</a>
                                 </li>
+
+                                <Link to="/carrito">
+                                <li className="nav-item">
+                                    <img src={carrito} className="iconos"/>
+                                </li>
+                                </Link>
+
                                 <SesionCaducada/>
                                 </>
                             ) : (

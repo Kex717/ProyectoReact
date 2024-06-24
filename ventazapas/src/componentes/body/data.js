@@ -28,7 +28,7 @@ export default [
         marca: "Nike",
         descripcion: "Presentamos la nueva generación de tecnología Air. Las Air Max Dn cuentan con nuestro sistema de unidades Dynamic Air de tubos de presión dual para ofrecer reactividad en cada pisada. El resultado es un diseño futurista lo suficientemente cómodo para llevarlo de día o de noche. Adelante, Feel the Unreal.",
         image: airMax,
-        precio: 300.000,
+        precio: 300000,
         cantidad: 1,
         precioCarrito: 300000
     },
@@ -82,36 +82,4 @@ export default [
         cantidad: 1,
         precioCarrito: 240000
     },
-    // {
-    //     id: 8,
-    //     title: "Street Fighter V",
-    //     plataforma: "ps4",
-    //     descripcion: "Juego para ps4",
-    //     image: st,
-    //     precio: "$200.000 COP"
-    // },
-    // {
-    //     id: 9,
-    //     title: "The Last Of Us Remasterizado",
-    //     plataforma: "ps4",
-    //     descripcion: "Juego para ps4",
-    //     image: tlou,
-    //     precio: "$300.000 COP"
-    // },
-    // {
-    //     id: 10,
-    //     title: "The Last Of Us Part II",
-    //     plataforma: "ps4",
-    //     descripcion: "Juego para ps4",
-    //     image: tlou2,
-    //     precio: "$300.000 COP"
-    // },
-    // {
-    //     id: 11,
-    //     title: "Uncharted 4",
-    //     plataforma: "ps4",
-    //     descripcion: "Juego para ps4",
-    //     image: uncharted,
-    //     precio: "$200.000 COP"
-    // },
 ]

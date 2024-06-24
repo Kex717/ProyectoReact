@@ -5,7 +5,7 @@ import NotFound from "./componentes/NotFound"
 import Registro from "./componentes/registro/Registro"
 import InicioSesion from './componentes/inicioSesion/InicioSesion';
 import DataProvider from './componentes/context/DataContext';
-import CarritoVacio from './componentes/carrito/CarritoVacio';
+import CarritoContents from './componentes/carrito/CarritoContents';
 
 function App (){
   return(
@@ -16,7 +16,7 @@ function App (){
           <Route exact path='/Registro' element={<Registro/>}/>
           <Route exact path='*' element={<NotFound/>}/>
           <Route exact path='/InicioSesion' element={<InicioSesion/>}/>
-          <Route exact path='/carrito-vacio' element={<CarritoVacio/>}/>
+          <Route exact path='/carrito' element={<CarritoContents/>}/>
         </Routes>
       </HashRouter>
     </DataProvider>

@@ -79,7 +79,11 @@ const InicioSesion = () =>{
             cookies.set('nombreUsu', usuario.nombre);
             cookies.set('apellidoUsu', usuario.apellido);
           }
-          cookies.set('iniciado', true);
+          cookies.set('iniciado', true, {
+            secure: true,
+            sameSite: 'none',
+            path: '/'
+          });
           window.location.hash = '/'
         }else if(response.status === 200 && values.rol === "Administrador"){
           cookies.set('email', values.email, {
@@ -92,7 +96,11 @@ const InicioSesion = () =>{
             cookies.set('nombreUsu', usuario.nombre);
             cookies.set('apellidoUsu', usuario.apellido);
           }
-          cookies.set('iniciado', true);
+          cookies.set('iniciado', true, {
+            secure: true,
+            sameSite: 'none',
+            path: '/'
+          });
           window.location.hash = '/usuarios-registrados'
         }else{
           console.log("sdfd", response.status)
