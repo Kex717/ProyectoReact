@@ -137,5 +137,7 @@ const controller = {
             })
         })
     }
+
+    // registerBD: function
 }
 module.exports = controller;
