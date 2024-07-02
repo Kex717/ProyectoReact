@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 });
 
 const user = require("../server/controlador/userController");
-app.use("/registro-usuario", user.register);
+app.use("/registro-usuario", user.registerBD);
 // app.use("/login",user.login);
 
 

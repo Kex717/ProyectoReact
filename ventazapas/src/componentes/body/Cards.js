@@ -12,9 +12,9 @@ export default function Cards(props) {
   function addToCart() {
     
     console.log(iniciado)
-    if(!iniciado){
+    if(!!!iniciado){
       navigate('/InicioSesion');
-      console.log(iniciado)
+      return;
     }
 
     setLibrosDelCarrito((currentLibros) => {
@@ -31,7 +31,6 @@ export default function Cards(props) {
         return [...currentLibros, { ...props.items, cantidad: 1, precioCarrito: props.items.precio }];
       }
     });
-    navigate('/carrito');
   }
 
   return (

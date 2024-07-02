@@ -73,7 +73,8 @@
 const express = require("express")
 const app = express();
 const axios = require('axios')
-const cors = require("cors")
+const cors = require("cors");
+const connection = require("../configBD");
 app.use(cors());
 
 const controller = {
@@ -136,8 +137,64 @@ const controller = {
                 }
             })
         })
-    }
+    },
 
-    // registerBD: function
+    registerBD: function (req, res){
+        const {identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password} = JSON.parse(JSON.stringify(req.body));
+        console.log("hola")
+        try{
+            const consulta = "INSERT INTO sql10715863.Usuarios (identificacion,nombre,Apellido,email,direccion,telefono,password,FechaCreacion) VALUES(?????????)"
+            connection.execute(consulta, [identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, new Date()])
+            res.status(200).send("Registro exitoso")
+            console.log("registro exitoso")
+        }catch(error){
+            console.log("registro fallido ",error)
+            res.status(500).send("error al insertar")
+        }
+    }
+// 
+    // controller.js
+
+
+    // registerBD: async function (req, res) {
+    //     const { identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password } = req.body;
+
+    //     try {
+    //         const [rows] = await connection.execute('SELECT * FROM Usuarios WHERE email = ? OR identificacion = ?', [email, identificacion]);
+
+    //         if (rows.length > 0) {
+    //             res.status(400).send('El email o la identificación ya existe');
+    //             return;
+    //         }
+
+    //         const [result] = await connection.execute(
+    //             'INSERT INTO Usuarios (identificacion, nombre, Apellido, email, direccion, telefono, fechaNacimiento, password, fecha_creacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    //             [identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, new Date()]
+    //         );
+
+    //         res.status(200).send('Usuario Registrado');
+    //     } catch (error) {
+    //         console.error('Error al procesar el registro:', error);
+    //         res.status(500).send('Error interno del servidor');
+    //     }
+    // },
+
+    // login: async function (req, res) {
+    //     const { email, password, rol } = req.body;
+
+    //     try {
+    //         const [rows] = await connection.execute('SELECT * FROM Usuarios WHERE email = ? AND password = ? AND rol = ?', [email, password, rol]);
+
+    //         if (rows.length > 0) {
+    //             res.status(200).send('Ok');
+    //         } else {
+    //             res.status(400).send('Error');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error al procesar el inicio de sesión:', error);
+    //         res.status(500).send('Error interno del servidor');
+    //     }
+    // },
+
 }
 module.exports = controller;
