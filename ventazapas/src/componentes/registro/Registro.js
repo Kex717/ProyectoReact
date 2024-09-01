@@ -78,7 +78,7 @@ export default function Registro() {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        let validPassword = /^(?=.*[A-Z]).{8,}$/;//Expersión regular para: Mínimo 8 caracteres de longitud. Almenos una letra mayúscula. Almenos una letra minúscula. Almenos un número. Almenos un caracter especial. https://uibakery.io/regex-library/password
+        let validPassword = /^(?=.*[A-Z]).{8,}$/;//Expersión regular para: Mínimo 8 caracteres de longitud. Almenos una letra mayúscula. Almenos una letra minúscula. Almenos un número. Almenos un caracter especial.
         let validEmail = /^\w+([.-_+]?\w+)@\w+([.-]?\w+)(\.\w{2,10})+$/; //Expresión regular para validar email, es decir, que el email ingresado tenga el formato correcto de una dirección de correo electrónico
 
         if (values.identificacion.length < 5 || values.identificacion.length > 10 || values.identificacion.length === 0) {
@@ -233,6 +233,9 @@ export default function Registro() {
                                         <input type="date" id="form3Example6cg" className="form-control form-control-lg" name='fechaNacimiento' placeholder='Debe ser de diez números' onChange={handleChange} onClick={fechaNacimientoErrorFuncion} />
                                         {fechaNacimientoError ? <p>Debe introducir una fecha de nacimiento</p> : ""}
                                     </div>
+
+
+                                    
 
 
                                     <div className='row'>

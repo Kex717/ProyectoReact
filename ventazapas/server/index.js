@@ -8,7 +8,9 @@ const conexion = require('./configBD')
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000' // Permitir solicitudes desde el frontend
+}));
 
 app.get('/', (req, res) => {
     // res.send('Hello World!')
@@ -26,7 +28,8 @@ app.get('/', (req, res) => {
 });
 
 const user = require("../server/controlador/userController");
-app.use("/registro-usuario", user.registerBD);
+app.use("/registro-usuario", user.registerBDR);
+app.use("/login", user.login);
 // app.use("/login",user.login);
 
 
@@ -36,12 +39,12 @@ app.listen(PORT, () => {
     console.log('Servidor corriendo en el puerto' + PORT)
 })
 
-app.get('/todos-los-Usuarios',(req,res)=>{
-    conexion.connect(function(err){
-        if (err) throw err;
-        conexion.query("SELECT * FROM sql10715863.Usuarios",function(err, result, fields){
-            if (err) throw err;
-            res.send(result)
-        });
-    })
-})
+// app.get('/todos-los-Usuarios',(req,res)=>{
+//     conexion.connect(function(err){
+//         if (err) throw err;
+//         conexion.query("SELECT * FROM railway.usuario",function(err, result, fields){
+//             if (err) throw err;
+//             res.send(result)
+//         });
+//     })
+// })

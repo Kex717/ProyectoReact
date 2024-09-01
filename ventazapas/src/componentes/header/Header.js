@@ -27,6 +27,13 @@ export default function Header() {
         cookies.remove('nombreUsu');
         window.location.href = '/';
     }    
+
+    function whatsApp(){
+        const telefono = "3153402363"
+        const mensaje = "Hola, Quiero más informacion"
+        const url = `https://api.whatsapp.com/send?phone=${telefono}&texto=${encodeURIComponent(mensaje)}`
+        window.open(url, "_blank")
+    }
     
     return (
         <div className='contenedor'>
@@ -41,6 +48,10 @@ export default function Header() {
                                     <a className="nav-link active" aria-current="page">Inicio</a>
                                 </li>
                             </Link>
+
+                            <li className='nav-item'>
+                                <a className="nav-link active" href="#" onClick={whatsApp}>Contacto</a>
+                            </li>
 
                             {/* <li className="nav-item">
                                 <img src={contacto} className="iconos"/>

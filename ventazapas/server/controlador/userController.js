@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+
 // const fs = require('fs').promises;
 // const path = require('path');
 
@@ -74,84 +74,110 @@ const express = require("express")
 const app = express();
 const axios = require('axios')
 const cors = require("cors");
-const connection = require("../configBD");
+const pool = require("../configBD");
 app.use(cors());
 
 const controller = {
-    register: function (req, res) {
-        let config = {
-            method: "GET",
-            maxBodyLength: Infinity,
-            url: 'https://api.jsonbin.io/v3/b/6654d654ad19ca34f87015e6',
-            headers: {
-                'Content-Type': 'application/json',
-                "X-Master-Key": "$2a$10$5DBJMjDObKOZdL5YZE0Cr.DgI5OPs0.4l6MEoy5.Y0WZxBkr09ATm"
-            }
-        }
-        axios(config)
-        .then(result => {
-            let id = result.data.record.length + 1
-            const usuarioNuevo = {
-                id: id,
-                identificacion: req.body.identificacion,
-                nombres: req.body.nombres,
-                apellidos: req.body.apellidos,
-                email: req.body.email,
-                direccion: req.body.direccion,
-                telefono: req.body.telefono,
-                fechaNacimiento: req.body.fechaNacimiento,
-                password: req.body.password,
-                estado: "activo",
-                rol: "Usuario",
-                fecha_creación: new Date(),
-            };
-            if (result.data.record.length === 0) {
-                result.data.record.push(usuarioNuevo)
-            }
-            else {
-                for (x of result.data.record) {
-                    if (x.email === req.body.email) {
-                        res.status(400).send("Usuario ya existe en la Base de Datos")
-                        return
-                    }
-                }
-                result.data.record.push(usuarioNuevo)
-            }
+    // register: function (req, res) {
+    //     let config = {
+    //         method: "GET",
+    //         maxBodyLength: Infinity,
+    //         url: 'https://api.jsonbin.io/v3/b/6654d654ad19ca34f87015e6',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             "X-Master-Key": "$2a$10$5DBJMjDObKOZdL5YZE0Cr.DgI5OPs0.4l6MEoy5.Y0WZxBkr09ATm"
+    //         }
+    //     }
+    //     axios(config)
+    //     .then(result => {
+    //         let id = result.data.record.length + 1
+    //         const usuarioNuevo = {
+    //             id: id,
+    //             identificacion: req.body.identificacion,
+    //             nombres: req.body.nombres,
+    //             apellidos: req.body.apellidos,
+    //             email: req.body.email,
+    //             direccion: req.body.direccion,
+    //             telefono: req.body.telefono,
+    //             fechaNacimiento: req.body.fechaNacimiento,
+    //             password: req.body.password,
+    //             estado: "activo",
+    //             rol: "Usuario",
+    //             fecha_creación: new Date(),
+    //         };
+    //         if (result.data.record.length === 0) {
+    //             result.data.record.push(usuarioNuevo)
+    //         }
+    //         else {
+    //             for (x of result.data.record) {
+    //                 if (x.email === req.body.email) {
+    //                     res.status(400).send("Usuario ya existe en la Base de Datos")
+    //                     return
+    //                 }
+    //             }
+    //             result.data.record.push(usuarioNuevo)
+    //         }
 
-            fetch("https://api.jsonbin.io/v3/b/6654d654ad19ca34f87015e6", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "Application/json",
-                    "X-Master-Key": "$2a$10$5DBJMjDObKOZdL5YZE0Cr.DgI5OPs0.4l6MEoy5.Y0WZxBkr09ATm"
-                },
-                body: JSON.stringify(result.data.record),
-            })
-            .then(response => {
-                if (response.status === 200) {
-                    res.status(200).send('ok')
-                    return
-                }
-                else {
-                    res.status(400).send("No Ok")
-                    return
-                }
-            })
-        })
+    //         fetch("https://api.jsonbin.io/v3/b/6654d654ad19ca34f87015e6", {
+    //             method: "PUT",
+    //             headers: {
+    //                 "Content-Type": "Application/json",
+    //                 "X-Master-Key": "$2a$10$5DBJMjDObKOZdL5YZE0Cr.DgI5OPs0.4l6MEoy5.Y0WZxBkr09ATm"
+    //             },
+    //             body: JSON.stringify(result.data.record),
+    //         })
+    //         .then(response => {
+    //             if (response.status === 200) {
+    //                 res.status(200).send('ok')
+    //                 return
+    //             }
+    //             else {
+    //                 res.status(400).send("No Ok")
+    //                 return
+    //             }
+    //         })
+    //     })
+    // },
+
+    registerBD: async function (req, res) {
+
+        const { identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password } = req.body;
+
+        try {
+            const consulta = `INSERT INTO ecommerce.usuarios 
+                              (idUsuario, nombre, apellido, email, direccion, telefono, fechaNacimiento, password, fechaCreacion) 
+                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+            const [result] = await pool.execute(consulta, [
+                identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, new Date()
+            ]);
+            console.log("registro exitoso");
+            res.status(200).send("Registro exitoso");
+        } catch (error) {
+            console.log("registro fallido ", error);
+            res.status(500).send("error al insertar");
+        }
     },
 
-    registerBD: function (req, res){
-        const {identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password} = JSON.parse(JSON.stringify(req.body));
-        console.log("hola")
-        try{
-            const consulta = "INSERT INTO sql10715863.Usuarios (identificacion,nombre,Apellido,email,direccion,telefono,password,FechaCreacion) VALUES(?????????)"
-            connection.execute(consulta, [identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, new Date()])
-            res.status(200).send("Registro exitoso")
-            console.log("registro exitoso")
-        }catch(error){
-            console.log("registro fallido ",error)
-            res.status(500).send("error al insertar")
+    registerBDR: async function (req, res) {
+
+        const { identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password } = req.body;
+
+        try {
+            const consulta = `INSERT INTO railway.usuario
+                              (identificacion, nombre, apellido, email, direccion, telefono, fechaNacimiento, password, fechaCreacion) 
+                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+            const [result] = await pool.execute(consulta, [
+                identificacion, nombres, apellidos, email, direccion, telefono, fechaNacimiento, password, new Date()
+            ]);
+            console.log("registro exitoso");
+            res.status(200).send("Registro exitoso");
+        } catch (error) {
+            console.log("registro fallido ", error);
+            res.status(500).send("error al insertar");
         }
-    }
+    },
 // 
     // controller.js
 
@@ -179,22 +205,22 @@ const controller = {
     //     }
     // },
 
-    // login: async function (req, res) {
-    //     const { email, password, rol } = req.body;
+    login: async function (req, res) {
+        const { email, password} = req.body;
 
-    //     try {
-    //         const [rows] = await connection.execute('SELECT * FROM Usuarios WHERE email = ? AND password = ? AND rol = ?', [email, password, rol]);
+        try {
+            const [rows] = await pool.execute('SELECT * FROM ecommerce.Usuarios WHERE email = ? AND password = ?', [email, password]);
 
-    //         if (rows.length > 0) {
-    //             res.status(200).send('Ok');
-    //         } else {
-    //             res.status(400).send('Error');
-    //         }
-    //     } catch (error) {
-    //         console.error('Error al procesar el inicio de sesión:', error);
-    //         res.status(500).send('Error interno del servidor');
-    //     }
-    // },
+            if (rows.length > 0) {
+                res.status(200).send('Ok');
+            } else {
+                res.status(400).send('Error');
+            }
+        } catch (error) {
+            console.error('Error al procesar el inicio de sesión:', error);
+            res.status(500).send('Error interno del servidor');
+        }
+    },
 
 }
 module.exports = controller;

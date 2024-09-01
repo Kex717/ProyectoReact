@@ -8,6 +8,7 @@ import usuarios from '../usuariosRegistrados.json'
 import ver from './ojo.jpg';
 import GoogleOAuth from '../googleOAuthProvider/GoogleOAuthProvider'
 
+
 const InicioSesion = () =>{
   const cookies = new Cookies();
   const [errorEmail, setErrorEmail] = useState(false);
